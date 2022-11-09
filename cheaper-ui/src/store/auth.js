@@ -15,6 +15,10 @@ export const authSlice = createSlice({
     setSelf: (state, action) => {
         const { user } = action.payload;
         state.user = user;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
     }
   },
 })
@@ -31,6 +35,6 @@ export const getUserAsync = () => async (dispatch, getState) => {
     dispatch(setSelf({ user }));
 }
 
-export const { setToken, setSelf } = authSlice.actions
+export const { setToken, setSelf, logout } = authSlice.actions
 
 export default authSlice.reducer

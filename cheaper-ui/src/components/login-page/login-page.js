@@ -13,7 +13,7 @@ export function LoginPage() {
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
     useEffect(() => {
-        navigate('/');
+        if(user) navigate('/');
     }, [user])
     return (
         <Row className='tc-page tc-login-page' justify='center'>

@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { HomePage } from "./components/home-page/home-page";
 import { LoginPage } from "./components/login-page/login-page";
+import { ProfilePage } from "./components/profile-page/profile-page";
 import { Layout, Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -39,6 +40,7 @@ function App() {
       <Content>
         <Routes>
           <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/" element={<HomePage/>}/>
         </Routes>
       </Content>
