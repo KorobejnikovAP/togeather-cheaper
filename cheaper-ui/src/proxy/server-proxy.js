@@ -36,7 +36,8 @@ async function login(data){
 }
 
 async function getSelf(token) {
-    return await makeRequest('GET', '/api/user', token)
+    const response = await makeRequest('GET', '/api/user', token);
+    return response.data;
 }
 
 export const serverProxy = {

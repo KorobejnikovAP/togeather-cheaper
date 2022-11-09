@@ -20,17 +20,14 @@ export const authSlice = createSlice({
 })
 
 export const loginAsync = (data) => async (dispatch) => {
-    data = { username: 'admin', password: 'admin123' }
     const token = await serverProxy.auth.login(data);
-    console.log(token);
     dispatch(setToken({ token: token.key }));
+    dispatch(getUserAsync());
 }
 
 export const getUserAsync = () => async (dispatch, getState) => {
     const token = getState().auth.token;
-    console.log(getState());
     const user = await serverProxy.auth.getSelf(token);
-    console.log(user);
     dispatch(setSelf({ user }));
 }
 
