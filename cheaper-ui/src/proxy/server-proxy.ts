@@ -1,20 +1,28 @@
+import { LoginData, RegisterData } from "../store/interfaces";
+
 const backendUrl = 'http://localhost:8000';
 
-async function makeRequest( method, url, token, data) {
-    let headers = {
+interface OptionsType {
+    method: string;
+    headers: Record<string, string>;
+    body?: any;
+}
+
+async function makeRequest(method: string, url: string, token: string | null, data?: any): Promise<any> {
+    const headers: Record<string, string> = {
         'Accept': 'application/json',
         'Content-Type': 'application/json' 
     }
     if (token) {
         headers['Authorization'] =  `Token ${token}`;
     }
-    const options = {
+    const options: OptionsType = {
         method,
         headers,
     }
 
     if (data) options.body = JSON.stringify(data);
-    console.log(options);
+
     return fetch(`${backendUrl}${url}`, options)
         .then(async response => {
             if (response.ok) {
@@ -31,15 +39,15 @@ async function makeRequest( method, url, token, data) {
 
 }
 
-async function login(data){
-    return await makeRequest('POST', '/api/login', undefined, data);
+async function login(data: LoginData) {
+    return await makeRequest('POST', '/api/login', null, data);
 }
 
-async function register(data){
-    return await makeRequest('POST', '/api/register', undefined, data);
+async function register(data: RegisterData){
+    return await makeRequest('POST', '/api/register', null, data);
 }
 
-async function getSelf(token) {
+async function getSelf(token: string) {
     const response = await makeRequest('GET', '/api/user', token);
     return response.data;
 }

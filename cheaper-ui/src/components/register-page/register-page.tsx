@@ -2,6 +2,7 @@ import { Col, Row, Typography } from 'antd';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { AppState } from '../../store/interfaces';
 import { RegisterForm } from './register-form';
 import './styles.sass'
 
@@ -10,7 +11,7 @@ const { Title } = Typography;
 
 export function RegisterPage() {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state: AppState) => state.auth.user);
     useEffect(() => {
         if(user) navigate('/');
     }, [user])

@@ -1,17 +1,18 @@
 import { Col, Row, Typography } from 'antd';
 import React, { useEffect } from 'react'
-import { loginAsync, getUserAsync} from '../../store/auth';
+import { loginAsync, getUserAsync} from '../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from './login-form';
 import './styles.sass'
+import { AppState } from '../../store/interfaces';
 
 
 const { Title } = Typography;
 
 export function LoginPage() {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state: AppState) => state.auth.user);
     useEffect(() => {
         if(user) navigate('/');
     }, [user])

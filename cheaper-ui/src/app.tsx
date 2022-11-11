@@ -11,14 +11,15 @@ import { RegisterPage } from "./components/register-page/register-page";
 import { ProfilePage } from "./components/profile-page/profile-page";
 import { Layout, Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from "./store/interfaces";
 
 const { Header, Footer, Content } = Layout;
 
 function App() {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state: AppState) => state.auth.user);
   return (
     <Router>
-    <Layout сlassName='tc-main'>
+    <Layout className='tc-main'>
       <Header className="tc-header">
         <Row justify='space-between'>
           <Col>

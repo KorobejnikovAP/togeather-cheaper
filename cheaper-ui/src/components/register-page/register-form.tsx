@@ -1,16 +1,18 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { loginAsync } from '../../store/auth';
+import { loginAsync } from '../../store/actions/auth';
+import { AppDispatch } from '../../store/store';
+import { LoginData } from '../../store/interfaces';
 
-export function LoginForm () {
-    const dispatch = useDispatch();
+export function RegisterForm () {
+    const dispatch: AppDispatch = useDispatch();
 
-    const onFinish = (values) => {
+    const onFinish = (values: LoginData) => {
         dispatch(loginAsync(values));
     };
 
-    const onFinishFailed = (errorInfo) => {
+    const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
@@ -32,6 +34,10 @@ export function LoginForm () {
         >
             <Input />
         </Form.Item>
+        
+        <Form.Item name={'email'} label="Email" rules={[{ type: 'email' }]}>
+            <Input />
+        </Form.Item>
 
         <Form.Item
             label="Пароль"
@@ -41,15 +47,11 @@ export function LoginForm () {
             <Input.Password />
         </Form.Item>
 
-        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-            <Checkbox>Запомнить меня</Checkbox>
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Вход
+                Регистрация
             </Button>
         </Form.Item>
         </Form>
     );
-};
+}
