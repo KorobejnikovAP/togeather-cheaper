@@ -35,6 +35,10 @@ async function login(data){
     return await makeRequest('POST', '/api/login', undefined, data);
 }
 
+async function register(data){
+    return await makeRequest('POST', '/api/register', undefined, data);
+}
+
 async function getSelf(token) {
     const response = await makeRequest('GET', '/api/user', token);
     return response.data;
@@ -43,6 +47,7 @@ async function getSelf(token) {
 export const serverProxy = {
     auth: {
         login,
+        register,
         getSelf,
     }
 }

@@ -35,6 +35,12 @@ export const getUserAsync = () => async (dispatch, getState) => {
     dispatch(setSelf({ user }));
 }
 
+export const registerAsync = (data) => async (dispatch) => {
+    const token = await serverProxy.auth.register(data);
+    dispatch(setToken({ token: token.key }));
+    dispatch(getUserAsync());
+}
+
 export const { setToken, setSelf, logout } = authSlice.actions
 
 export default authSlice.reducer

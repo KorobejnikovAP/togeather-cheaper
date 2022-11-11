@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '../../store/auth';
 
-export function LoginForm () {
+export function RegisterForm () {
     const dispatch = useDispatch();
 
     const onFinish = (values) => {
@@ -32,6 +32,10 @@ export function LoginForm () {
         >
             <Input />
         </Form.Item>
+        
+        <Form.Item name={'email'} label="Email" rules={[{ type: 'email' }]}>
+            <Input />
+        </Form.Item>
 
         <Form.Item
             label="Пароль"
@@ -41,13 +45,9 @@ export function LoginForm () {
             <Input.Password />
         </Form.Item>
 
-        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-            <Checkbox>Запомнить меня</Checkbox>
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Вход
+                Регистрация
             </Button>
         </Form.Item>
         </Form>
