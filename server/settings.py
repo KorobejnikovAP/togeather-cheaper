@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'server.engine',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL = 'engine.User'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -131,3 +134,4 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:1212',
 ]
+

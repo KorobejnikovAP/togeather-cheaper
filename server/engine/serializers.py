@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+from .models import User
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
