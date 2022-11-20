@@ -4,8 +4,8 @@ import { setToken, setSelf } from "../reducers/auth";
 import { AppDispatch } from "../store";
 
 export const loginAsync = (data: LoginData) => async (dispatch: AppDispatch) => {
-    const token = await serverProxy.auth.login(data);
-    dispatch(setToken({ token: token.key }));
+    const responseData = await serverProxy.auth.login(data);
+    dispatch(setToken({ token: responseData.key }));
     dispatch(getUserAsync());
 }
 
@@ -17,7 +17,7 @@ export const getUserAsync = () => async (dispatch: AppDispatch, getState: ()=> A
 }
 
 export const registerAsync = (data: RegisterData) => async (dispatch: AppDispatch) => {
-    const token = await serverProxy.auth.register(data);
-    dispatch(setToken({ token: token.key }));
+    const responseData = await serverProxy.auth.register(data);
+    dispatch(setToken({ token: responseData.key }));
     dispatch(getUserAsync());
 }
