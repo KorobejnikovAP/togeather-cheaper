@@ -53,7 +53,15 @@ class LoginView(views.APIView):
         else:
             return Response(serializer.errors, status=400)
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = serializers.RegisterSerializer
+class RegisterView(views.APIView):
+    def post(self, request):
+        serializer = serializers.RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create(**serializer.validated_data)
+            try:
+                token = Token.objects.get(user=user)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user=user)
+            return Response(serializers.TokenSerializer(token).data)
+        else:
+            return Response(serializer.errors, status=400)

@@ -1,15 +1,38 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, notification, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { loginAsync } from '../../store/actions/auth';
+import { registerAsync } from '../../store/actions/auth';
 import { AppDispatch } from '../../store/store';
-import { LoginData } from '../../store/interfaces';
+import { RegisterData } from '../../store/interfaces';
+import { useNavigate } from "react-router-dom";
+import type { NotificationPlacement } from 'antd/es/notification';
 
 export function RegisterForm () {
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const onFinish = (values: LoginData) => {
-        dispatch(loginAsync(values));
+    const onFinish = (values: RegisterData) => {
+        const notificationMutual: { placement: NotificationPlacement, duration: number} = {
+            placement: 'topRight',
+            duration: 4,
+        }
+        dispatch(registerAsync(values)).then(() => {
+            notification.success({
+                message: 'Регистрация завершена!',
+                description: 'Перенаправляем на главную страницу через несколько секунд',
+                ...notificationMutual,
+            });
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        }).catch((err) => {
+            console.log(err);
+            notification.error({
+                message: 'Registration error!',
+                description: 'An error occured, check console for details',
+                ...notificationMutual,
+            });
+        });
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -32,11 +55,15 @@ export function RegisterForm () {
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
         >
-            <Input />
+            <Input 
+                autoComplete='false'
+             />
         </Form.Item>
         
         <Form.Item name={'email'} label="Email" rules={[{ type: 'email' }]}>
-            <Input />
+            <Input 
+                autoComplete='false'
+            />
         </Form.Item>
 
         <Form.Item
@@ -44,7 +71,9 @@ export function RegisterForm () {
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
         >
-            <Input.Password />
+            <Input.Password 
+                autoComplete='new-password'
+            />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
