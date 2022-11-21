@@ -9,7 +9,7 @@ api/collections GET
             "name"        : string,
             "manager"     : number,
             "price"       : number,
-            "countForBuy" : number,
+            "count_for_buy" : number,
         },
         {
             ""
