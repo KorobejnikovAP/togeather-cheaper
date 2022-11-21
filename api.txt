@@ -1,0 +1,114 @@
+GET запросы -------------------------------------------------------------
+
+# Получить список всех коллекций
+api/collections GET 
+{   
+    [
+        {
+            "id"          : number,
+            "name"        : string,
+            "manager"     : number,
+            "price"       : number,
+            "count_for_buy" : number,
+        },
+        {
+            ""
+        }
+    ]
+}
+
+# Получить конкретную коллекцию
+api/collection/<id> GET 
+{
+    "id"            : number,
+    "name_product"  : string,
+    "manager"       : number,
+    "price_product" : number,
+    "count_for_buy"   : number,
+}
+
+# Получить данные пользователя 
+api/user 
+{
+    "id"       : number,
+    "username" : string,
+}
+
+# Получить данные профиля
+api/profile/<id> GET 
+{   
+    "id:       : number,
+    "username" : string,
+    "role"     : string,
+}
+
+# Получить список продуктов менеджера
+api/profile/<id>/products GET 
+{
+    [
+        {
+            "id"    : number,
+            "name"  : string,
+            "price" : number,
+        },
+        {
+            ""
+        }
+    ]
+}
+
+# Получить список коллекций клиента
+api/profile/<id>/collections GET 
+{
+    [
+        {
+            "id"            : number,
+            "name_product"  : string,
+            "manager"       : number,
+            "price_product" : number,
+            "countForBuy"   : number,
+        }
+        {
+            ""
+        }
+    ]
+}
+
+POST запросы ---------------------------------------------------
+
+# Регистрация
+api/register
+{
+    "login"     : string,
+    "password"  : string,
+    "user_role" : string
+}
+
+# Вход
+api/login 
+{
+    "login"     : string,
+    "password"  : string,
+}
+
+# Создать продукт
+api/create_product/
+{
+    "name"  : string, 
+    "price" : number
+}
+
+# Создать сбор
+api/create_collection/
+{
+    "name_product"  : string, 
+    "countForBuy"   : number,
+}
+
+
+PUT Запросы ------------------------------------------------------------------------
+
+# Добваить клиента в сбор
+api/add_user_to_collection/<id>
+{
+}
