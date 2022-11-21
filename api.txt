@@ -24,7 +24,7 @@ api/collection/<id> GET
     "name_product"  : string,
     "manager"       : number,
     "price_product" : number,
-    "countForBuy"   : number,
+    "count_for_buy"   : number,
 }
 
 # Получить данные пользователя 
