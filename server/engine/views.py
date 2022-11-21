@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework import views
 from rest_framework import generics
@@ -12,6 +12,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from server.engine import serializers
+from .models import User
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -30,7 +31,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GroupSerializer
     permission_classes = [IsAuthenticated]
 
-
 @api_view()
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -38,7 +38,6 @@ def user(request: Request):
     return Response({
         'data': serializers.UserSerializer(request.user).data
     })
-
 
 class LoginView(views.APIView):
     def post(self, request: Request):
