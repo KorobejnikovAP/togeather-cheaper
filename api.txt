@@ -5,11 +5,11 @@ api/collections GET
 {   
     [
         {
-            "id"          : number,
-            "name"        : string,
-            "manager"     : number,
-            "price"       : number,
-            "countForBuy" : number,
+            "id"           : number,
+            "name_product" : string,
+            "manager"      : number,
+            "price"        : number,
+            "countForBuy"  : number,
         },
         {
             ""

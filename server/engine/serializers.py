@@ -4,13 +4,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import User
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username']
-
+from .models import User, Collection, Product
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -46,8 +40,34 @@ class RegisterSerializer(ModelSerializer):
             email=validated_data['email'],
         )
 
-        
         user.set_password(validated_data['password'])
         user.save()
 
         return user
+    
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.UUIDField(source='pk')
+
+    class Meta:
+        model = User
+        fields = ['id','username']
+
+class ProductSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
+
+class CollectionSerializer(ModelSerializer):
+    product = ProductSerializer()
+    manager = UserSerializer()
+    id = serializers.UUIDField(source='pk')
+    count_for_buy = serializers.CharField(source='countForBuy')
+    class Meta:
+        model = Collection
+        fields = ['id', 'product', 'manager', 'count_for_buy']
+
+class ProfileSerializer(ModelSerializer):
+    id = serializers.UUIDField(source='pk')
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'user_role']

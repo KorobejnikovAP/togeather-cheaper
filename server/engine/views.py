@@ -7,12 +7,20 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import (api_view, authentication_classes,
                                        permission_classes)
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from server.engine import serializers
-from .models import User
+from .models import User, Collection, Product
+
+class IsClient(BasePermission):
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated and request.user.user_role == 'client')
+
+class IsManager(BasePermission):
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated and request.user.user_role == 'manager')
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -43,7 +51,8 @@ class LoginView(views.APIView):
     def post(self, request: Request):
         serializer = serializers.LoginSerializer(data=request.data)
         if serializer.is_valid():
-            authenticated_user = authenticate(**serializer.validated_data)
+            authenticated_user = User.objects.get(**serializer.validated_data)
+            print(authenticated_user)
             try:
                 token = Token.objects.get(user=authenticated_user)
             except Token.DoesNotExist:
@@ -64,3 +73,38 @@ class RegisterView(views.APIView):
             return Response(serializers.TokenSerializer(token).data)
         else:
             return Response(serializer.errors, status=400)
+
+class CollectionsView(views.APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        qs = Collection.objects.all()
+        return Response(serializers.CollectionSerializer(qs, many=True).data)
+
+class CollectionDetailView(views.APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        qs = Collection.objects.get(pk=pk)
+        return Response(serializers.CollectionSerializer(qs).data)
+
+class ProfileView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        return Response(serializers.ProfileSerializer(request.user).data)
+
+class UserProductsView(views.APIView):
+    permission_classes = [IsManager]
+
+    def get(self, request, pk):
+        products = Product.objects.filter(manager=pk)
+        return Response(serializers.ProductSerializer(products, many=True).data)
+
+class UserCollectionsView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = User.objects.get(pk=pk)
+        collections = Collection.objects.filter(clients__username=user.username)
+        return Response(serializers.CollectionSerializer(collections, many=True).data)
