@@ -17,8 +17,9 @@ class User(AbstractUser):
 class Product(models.Model):
     name = models.CharField(max_length=128)
     price = models.IntegerField()
+    manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-class Collecting(models.Model):
+class Collection(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='manager')
     clients = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='client')
