@@ -12,12 +12,15 @@ class User(AbstractUser):
         (MANAGER, 'manager'),
     ]
 
-    user_role = models.CharField(max_length=7, choices=USER_ROLE_CHOICES, default=CLIENT)  
+    user_role = models.CharField(max_length=7, choices=USER_ROLE_CHOICES)  
 
 class Product(models.Model):
     name = models.CharField(max_length=128)
     price = models.IntegerField()
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class Collection(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -32,3 +35,6 @@ class Collection(models.Model):
         (CLOSE, 'close'), 
     ]
     status = models.BooleanField(choices=STATUS_CHOICES, default=CLOSE)
+
+    def __str__(self):
+        return f'collection_{self.pk}'
