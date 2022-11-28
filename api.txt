@@ -5,10 +5,16 @@ api/collections GET
 {   
     [
         {
-            "id"          : number,
-            "name"        : string,
-            "manager"     : number,
-            "price"       : number,
+            "id" : number,
+            "product" : {
+                "id" : number,
+                "name" : string,
+                "price" : number
+            },
+            "manager" : {
+                "id" : number,
+                "username" : string,
+            },
             "count_for_buy" : number,
         },
         {
@@ -20,11 +26,17 @@ api/collections GET
 # Получить конкретную коллекцию
 api/collection/<id> GET 
 {
-    "id"            : number,
-    "name_product"  : string,
-    "manager"       : number,
-    "price_product" : number,
-    "count_for_buy"   : number,
+    "id" : number,
+    "product" : {
+        "id" : number,
+        "name" : string,
+        "price" : number
+    },
+    "manager" : {
+        "id" : number,
+        "username" : string,
+    },
+    "count_for_buy" : number,
 }
 
 # Получить данные пользователя 
@@ -37,9 +49,9 @@ api/user
 # Получить данные профиля
 api/profile/<id> GET 
 {   
-    "id:       : number,
-    "username" : string,
-    "role"     : string,
+    "id:        : number,
+    "username"  : string,
+    "user_role" : string,
 }
 
 # Получить список продуктов менеджера
@@ -59,15 +71,21 @@ api/profile/<id>/products GET
 
 # Получить список коллекций клиента
 api/profile/<id>/collections GET 
-{
+{   
     [
         {
-            "id"            : number,
-            "name_product"  : string,
-            "manager"       : number,
-            "price_product" : number,
-            "countForBuy"   : number,
-        }
+            "id" : number,
+            "product" : {
+                "id" : number,
+                "name" : string,
+                "price" : number
+            },
+            "manager" : {
+                "id" : number,
+                "username" : string,
+            },
+            "count_for_buy" : number,
+        },
         {
             ""
         }
@@ -79,30 +97,31 @@ POST запросы ---------------------------------------------------
 # Регистрация
 api/register
 {
-    "login"     : string,
+    "username"  : string,
     "password"  : string,
-    "user_role" : string
+    "email"     : string,
+    "user_role" : string,
 }
 
 # Вход
 api/login 
 {
-    "login"     : string,
+    "username"  : string,
     "password"  : string,
 }
 
 # Создать продукт
 api/create_product/
 {
-    "name"  : string, 
-    "price" : number
+    "name_product"  : string, 
+    "price"         : number
 }
 
 # Создать сбор
 api/create_collection/
 {
     "name_product"  : string, 
-    "countForBuy"   : number,
+    "count_for_buy" : number,
 }
 
 

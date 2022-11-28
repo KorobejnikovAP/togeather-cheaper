@@ -12,7 +12,7 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api/user', views.user, name='user'),
+    path('api/user', views.UserView.as_view()),
     path('api/profile/<int:pk>', views.ProfileView.as_view()),
     path('api/login', views.LoginView.as_view()),
     path('api/register', views.RegisterView.as_view()),
@@ -20,6 +20,8 @@ urlpatterns = [
     path('api/collection/<int:pk>', views.CollectionDetailView.as_view()),
     path('api/profile/<int:pk>/products', views.UserProductsView.as_view()),
     path('api/profile/<int:pk>/collections', views.UserCollectionsView.as_view()),
+    path('api/create_product', views.CreateProduct.as_view()),
+    path('api/create_collection', views.CreateCollection.as_view()),
 ]
 
 print(urlpatterns)

@@ -39,13 +39,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GroupSerializer
     permission_classes = [IsAuthenticated]
 
-@api_view()
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
-def user(request: Request):
-    return Response({
-        'data': serializers.UserSerializer(request.user).data
-    })
+class UserView(views.APIView):
+    def get(self, request):
+        return Response(serializers.UserSerializer(request.user).data)
 
 class LoginView(views.APIView):
     def post(self, request: Request):
@@ -106,5 +102,40 @@ class UserCollectionsView(views.APIView):
 
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
-        collections = Collection.objects.filter(clients__username=user.username)
+        if user.user_role == 'client':
+            collections = Collection.objects.filter(clients__username=user.username)
+        else:
+            collections = Collection.objects.filter(manager=user.id)
         return Response(serializers.CollectionSerializer(collections, many=True).data)
+
+class CreateProduct(views.APIView):
+    permission_classes = [IsManager]
+
+    def post(self, request):
+        serializer = serializers.CreateProductSerializer(data=request.data)
+        if serializer.is_valid():
+            product = Product.objects.create(
+                name = serializer.validated_data['name_product'],
+                price = serializer.validated_data['price'],
+                manager_id= request.user.id)
+            product.save()
+            return Response(status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+class CreateCollection(views.APIView):
+    permission_classes = [IsManager]
+
+    def post(self, request):
+        serializer = serializers.CreateCollectionSerializer(data=request.data)
+        if serializer.is_valid():
+            collection = Collection.objects.create(
+                product = Product.objects.get(name=serializer.validated_data['name_product']),
+                manager = request.user,
+                countForBuy = serializer.validated_data['count_for_buy'],
+                status = True,
+            )
+            collection.save()
+            return Response(status=201)
+        else:
+            return Response(serializer.errors, status=400)
