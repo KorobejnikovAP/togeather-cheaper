@@ -58,7 +58,7 @@ class CollectionSerializer(ModelSerializer):
     product = ProductSerializer()
     manager = UserSerializer()
     id = serializers.UUIDField(source='pk')
-    count_for_buy = serializers.CharField(source='countForBuy')
+    count_for_buy = serializers.IntegerField(source='countForBuy')
     class Meta:
         model = Collection
         fields = ['id', 'product', 'manager', 'count_for_buy']
