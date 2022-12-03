@@ -7,7 +7,6 @@ import { RegisterForm } from './register-form';
 import './styles.sass'
 
 
-const { Title } = Typography;
 
 export function RegisterPage() {
     const navigate = useNavigate();
@@ -17,14 +16,9 @@ export function RegisterPage() {
     }, [user])
     return (
         <Row className='tc-page tc-register-page' justify='center'>
-            <Col span={7}>
+            <Col span={8}>
                 <Row justify='center'>
-                    <Col span={15}>
-                        <Title level={2}>Регистрация</Title>
-                    </Col>
-                </Row>
-                <Row justify='center'>
-                    <Col flex='auto'>
+                    <Col>
                         <RegisterForm/>
                     </Col>
                 </Row>

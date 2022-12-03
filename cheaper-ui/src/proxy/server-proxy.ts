@@ -44,12 +44,12 @@ async function login(data: LoginData) {
 }
 
 async function register(data: RegisterData){
-    return await makeRequest('POST', '/api/register', null, data);
+    return await makeRequest('POST', '/api/register', null, { ...data, user_role: 'client'});
 }
 
 async function getSelf(token: string) {
     const response = await makeRequest('GET', '/api/user', token);
-    return response.data;
+    return response;
 }
 
 export const serverProxy = {

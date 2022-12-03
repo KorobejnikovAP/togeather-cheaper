@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button, notification, Form, Input } from 'antd';
+import { Button, notification, Form, Input, Col, Row, Typography } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '../../store/actions/auth';
 import { AppDispatch } from '../../store/store';
 import { RegisterData } from '../../store/interfaces';
 import { useNavigate } from "react-router-dom";
 import type { NotificationPlacement } from 'antd/es/notification';
+
+
+const { Title } = Typography;
+
 
 export function RegisterForm () {
     const dispatch: AppDispatch = useDispatch();
@@ -40,10 +44,15 @@ export function RegisterForm () {
     };
 
     return (
+        <>
+        <Row justify='center' className='tc-register-title'>
+            <Col>
+                <Title level={2}>Регистрация</Title>
+            </Col>
+        </Row>
         <Form
             name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -51,36 +60,40 @@ export function RegisterForm () {
             className='tc-login-form'
         >
         <Form.Item
-            label="Имя пользователя"
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
         >
-            <Input 
+            <Input
+                placeholder='Имя пользователя'
                 autoComplete='false'
              />
         </Form.Item>
         
-        <Form.Item name={'email'} label="Email" rules={[{ type: 'email' }]}>
+        <Form.Item name={'email'} rules={[{ type: 'email' }]}>
             <Input 
+                placeholder='Email'
                 autoComplete='false'
             />
         </Form.Item>
 
         <Form.Item
-            label="Пароль"
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
         >
             <Input.Password 
+                placeholder='Пароль'
                 autoComplete='new-password'
             />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-                Регистрация
-            </Button>
+        <Form.Item>
+            <Row justify='center'>
+                <Button type="primary" htmlType="submit">
+                    Регистрация
+                </Button>
+            </Row>
         </Form.Item>
         </Form>
+        </>
     );
 }
