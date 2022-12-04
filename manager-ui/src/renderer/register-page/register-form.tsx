@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, notification, Form, Input, Col, Row, Typography } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import type { NotificationPlacement } from 'antd/es/notification';
 import { registerAsync } from '../../store/actions/auth';
 import { AppDispatch } from '../../store/store';
 import { RegisterData } from '../../store/interfaces';
-import { useNavigate } from "react-router-dom";
-import type { NotificationPlacement } from 'antd/es/notification';
 
 
 const { Title } = Typography;
@@ -29,6 +29,7 @@ export default function RegisterForm () {
             setTimeout(() => {
                 navigate('/');
             }, 3000);
+            return null;
         }).catch((err) => {
             console.log(err);
             notification.error({
@@ -57,7 +58,6 @@ export default function RegisterForm () {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
-                className='tc-login-form'
             >
             <Form.Item
                 name="username"
@@ -69,7 +69,7 @@ export default function RegisterForm () {
                 />
             </Form.Item>
             
-            <Form.Item name={'email'} rules={[{ type: 'email' }]}>
+            <Form.Item name='email' rules={[{ type: 'email' }]}>
                 <Input 
                     placeholder='Email'
                     autoComplete='false'

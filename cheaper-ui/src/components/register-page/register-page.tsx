@@ -1,14 +1,14 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, Row } from 'antd';
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { AppState } from '../../store/interfaces';
-import { RegisterForm } from './register-form';
+import RegisterForm from './register-form';
 import './styles.sass'
 
 
 
-export function RegisterPage() {
+export default function RegisterPage() {
     const navigate = useNavigate();
     const user = useSelector((state: AppState) => state.auth.user);
     useEffect(() => {

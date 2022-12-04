@@ -1,23 +1,25 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import LoginForm from './login-form';
-import './styles.sass'
 import { AppState } from '../../store/interfaces';
+import RegisterForm from './register-form';
+import './styles.sass'
 
-export default function LoginPage() {
+
+
+export default function RegisterPage() {
     const navigate = useNavigate();
     const user = useSelector((state: AppState) => state.auth.user);
     useEffect(() => {
         if(user) navigate('/');
-    }, [user])
+    }, [user, navigate])
     return (
-        <Row className='tc-page tc-login-page' justify='center'>
+        <Row className='tc-page tc-register-page' justify='center'>
             <Col span={8}>
                 <Row justify='center'>
                     <Col>
-                        <LoginForm/>
+                        <RegisterForm/>
                     </Col>
                 </Row>
             </Col>
