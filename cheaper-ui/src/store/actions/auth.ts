@@ -13,6 +13,7 @@ export const getUserAsync = () => async (dispatch: AppDispatch, getState: ()=> A
     const token = getState().auth.token;
     let user = null;
     if (token) user = await serverProxy.auth.getSelf(token);
+    console.log(user);
     dispatch(setSelf({ user }));
 }
 

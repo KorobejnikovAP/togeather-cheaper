@@ -14,7 +14,7 @@ async function makeRequest(method: string, url: string, token: string | null, da
         'Content-Type': 'application/json' 
     }
     if (token) {
-        headers['Authorization'] =  `Token ${token}`;
+        headers.Authorization =  `Token ${token}`;
     }
     const options: OptionsType = {
         method,
@@ -26,11 +26,11 @@ async function makeRequest(method: string, url: string, token: string | null, da
     return fetch(`${backendUrl}${url}`, options)
         .then(async response => {
             if (response.ok) {
-                data = await response.json()
-                return data;
-            } else {
+                const dataR = await response.json()
+                return dataR;
+            } 
                 throw Error(`Something went wrong: code ${response.status}`)
-            }
+            
         })
         .catch((err) => {
             console.log(err);
@@ -40,11 +40,11 @@ async function makeRequest(method: string, url: string, token: string | null, da
 }
 
 async function login(data: LoginData) {
-    return await makeRequest('POST', '/api/login', null, data);
+    return makeRequest('POST', '/api/login', null, data);
 }
 
 async function register(data: RegisterData){
-    return await makeRequest('POST', '/api/register', null, { ...data, user_role: 'client'});
+    return makeRequest('POST', '/api/register', null, { ...data, user_role: 'manager'});
 }
 
 async function getSelf(token: string) {
@@ -52,10 +52,12 @@ async function getSelf(token: string) {
     return response;
 }
 
-export const serverProxy = {
+const serverProxy = {
     auth: {
         login,
         register,
         getSelf,
     }
 }
+
+export default serverProxy;
