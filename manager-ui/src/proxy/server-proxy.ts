@@ -1,4 +1,4 @@
-import { LoginData, RegisterData } from "../store/interfaces";
+import { LoginData, ProductData, RegisterData } from "../store/interfaces";
 
 const backendUrl = 'http://localhost:8000';
 
@@ -8,7 +8,8 @@ interface OptionsType {
     body?: any;
 }
 
-async function makeRequest(method: string, url: string, token: string | null, data?: any): Promise<any> {
+let token: string | null = null;
+async function makeRequest(method: string, url: string, data?: any): Promise<any> {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
         'Content-Type': 'application/json' 
@@ -40,23 +41,39 @@ async function makeRequest(method: string, url: string, token: string | null, da
 }
 
 async function login(data: LoginData) {
-    return makeRequest('POST', '/api/login', null, data);
+    return makeRequest('POST', '/api/login', data);
 }
 
 async function register(data: RegisterData){
-    return makeRequest('POST', '/api/register', null, { ...data, user_role: 'manager'});
+    return makeRequest('POST', '/api/register', { ...data, user_role: 'manager'});
 }
 
-async function getSelf(token: string) {
-    const response = await makeRequest('GET', '/api/user', token);
+async function getSelf(tokenInternal: string) {
+    token = tokenInternal;
+    const response = await makeRequest('GET', '/api/user');
     return response;
 }
+
+async function createProduct(data: ProductData) {
+    const response = await makeRequest('POST', '/api/create_product', data);
+    return response;
+}
+
+async function getProducts(userId: number) {
+    const response = await makeRequest('GET', `/api/profile/${userId}/products`);
+    return response;
+}
+
 
 const serverProxy = {
     auth: {
         login,
         register,
         getSelf,
+    },
+    products: {
+        create: createProduct,
+        get: getProducts,
     }
 }
 
