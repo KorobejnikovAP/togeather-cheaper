@@ -20,6 +20,7 @@ export interface AppState {
         user: User | null;
     }
     collections: {
+        collections: Collection[],
         current: Collection[],
     }
 }
