@@ -131,8 +131,12 @@ class CreateCollection(views.APIView):
     def post(self, request):
         serializer = serializers.CreateCollectionSerializer(data=request.data)
         if serializer.is_valid():
+            try:
+                product = Product.objects.get(name=serializer.validated_data['name_product'])
+            except:
+                return Response(serializer.errors, status=400)
             collection = Collection.objects.create(
-                product = Product.objects.get(name=serializer.validated_data['name_product']),
+                product = product,
                 manager = request.user,
                 countForBuy = serializer.validated_data['count_for_buy'],
                 status = True,
