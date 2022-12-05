@@ -2,6 +2,7 @@ import { Button, Col, Row, Typography } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AppDispatch } from '../../store/store';
 import { getCollectionsAsync } from '../../store/actions/collections';
 import { AppState, Collection, Product } from '../../store/interfaces';
 import CollectionCard from './collection-card';
@@ -9,7 +10,7 @@ import CollectionCard from './collection-card';
 
 export default function ProductPage () {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const products = useSelector((state: AppState) => state.products.current);
     const { productId } = useParams();
     const product = products.find((pr) => productId ? pr.id === +productId : false);

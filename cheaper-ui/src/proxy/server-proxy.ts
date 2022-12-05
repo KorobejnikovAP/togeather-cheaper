@@ -8,7 +8,8 @@ interface OptionsType {
     body?: any;
 }
 
-async function makeRequest(method: string, url: string, token: string | null, data?: any): Promise<any> {
+let token: string | null = null;
+async function makeRequest(method: string, url: string, data?: any): Promise<any> {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
         'Content-Type': 'application/json' 
@@ -40,15 +41,21 @@ async function makeRequest(method: string, url: string, token: string | null, da
 }
 
 async function login(data: LoginData) {
-    return await makeRequest('POST', '/api/login', null, data);
+    return await makeRequest('POST', '/api/login', data);
 }
 
 async function register(data: RegisterData){
-    return await makeRequest('POST', '/api/register', null, { ...data, user_role: 'client'});
+    return await makeRequest('POST', '/api/register', { ...data, user_role: 'client'});
 }
 
-async function getSelf(token: string) {
-    const response = await makeRequest('GET', '/api/user', token);
+async function getSelf(tokenInternal: string) {
+    token = tokenInternal;
+    const response = await makeRequest('GET', '/api/user');
+    return response;
+}
+
+async function getCollections() {
+    const response = await makeRequest('GET', '/api/collections');
     return response;
 }
 
@@ -57,5 +64,8 @@ export const serverProxy = {
         login,
         register,
         getSelf,
+    },
+    collections: {
+        get: getCollections,
     }
 }

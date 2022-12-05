@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import HomePage from "./components/home-page/home-page";
+import CollectionsPage from "./components/collections-page/collections-page";
 import LoginPage from "./components/login-page/login-page";
 import RegisterPage from "./components/register-page/register-page";
 import ProfilePage from "./components/profile-page/profile-page";
@@ -23,7 +23,7 @@ function App() {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
-          <Route path="/" element={<HomePage/>}/>
+          <Route path="/" element={<CollectionsPage/>}/>
         </Routes>
       </Content>
     </Layout>

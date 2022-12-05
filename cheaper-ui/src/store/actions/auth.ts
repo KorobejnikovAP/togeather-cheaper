@@ -6,19 +6,17 @@ import { AppDispatch } from "../store";
 export const loginAsync = (data: LoginData) => async (dispatch: AppDispatch) => {
     const responseData = await serverProxy.auth.login(data);
     dispatch(setToken({ token: responseData.key }));
-    dispatch(getUserAsync());
+    dispatch(getUserAsync(responseData.key));
 }
 
-export const getUserAsync = () => async (dispatch: AppDispatch, getState: ()=> AppState) => {
-    const token = getState().auth.token;
+export const getUserAsync = (token: string) => async (dispatch: AppDispatch) => {
     let user = null;
     if (token) user = await serverProxy.auth.getSelf(token);
-    console.log(user);
     dispatch(setSelf({ user }));
 }
 
 export const registerAsync = (data: RegisterData) => async (dispatch: AppDispatch) => {
     const responseData = await serverProxy.auth.register(data);
     dispatch(setToken({ token: responseData.key }));
-    dispatch(getUserAsync());
+    dispatch(getUserAsync(responseData.key));
 }
