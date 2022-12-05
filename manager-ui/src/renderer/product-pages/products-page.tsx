@@ -29,8 +29,11 @@ export default function ProductsPage() {
     return (
         <div className='tc-page'>
             <Row justify='center'>
-                <Col span={20}>
-                    <Row justify='end'>
+                <Col span={22}>
+                    <Row justify='space-between'>
+                        <Col>
+                            Список продуктов
+                        </Col>
                         <Col>
                             <Button onClick={onAdd} type='primary'>
                                 Добавить товар

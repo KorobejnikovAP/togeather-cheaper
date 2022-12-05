@@ -1,4 +1,4 @@
-import { LoginData, ProductData, RegisterData } from "../store/interfaces";
+import { CollectionData, LoginData, ProductData, RegisterData } from "../store/interfaces";
 
 const backendUrl = 'http://localhost:8000';
 
@@ -64,6 +64,15 @@ async function getProducts(userId: number) {
     return response;
 }
 
+async function createCollection(data: CollectionData) {
+    const response = await makeRequest('POST', '/api/create_collection', data);
+    return response;
+}
+
+async function getCollections() {
+    const response = await makeRequest('GET', '/api/collections');
+    return response;
+}
 
 const serverProxy = {
     auth: {
@@ -74,6 +83,10 @@ const serverProxy = {
     products: {
         create: createProduct,
         get: getProducts,
+    },
+    collections: {
+        create: createCollection,
+        get: getCollections,
     }
 }
 
