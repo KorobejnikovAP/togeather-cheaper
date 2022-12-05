@@ -47,8 +47,10 @@ class LoginView(views.APIView):
     def post(self, request: Request):
         serializer = serializers.LoginSerializer(data=request.data)
         if serializer.is_valid():
-            authenticated_user = User.objects.get(**serializer.validated_data)
-            print(authenticated_user)
+            try:
+                authenticated_user = User.objects.get(**serializer.validated_data)
+            except:
+                return Response(serializer.errors, status=400)
             try:
                 token = Token.objects.get(user=authenticated_user)
             except Token.DoesNotExist:
