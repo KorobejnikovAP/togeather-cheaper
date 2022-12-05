@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import auth from './reducers/auth'
 import products from './reducers/products'
+import collections from './reducers/collections'
 
 
 export const store = configureStore({
   reducer: {
     auth,
     products,
+    collections,
   },
 })
 

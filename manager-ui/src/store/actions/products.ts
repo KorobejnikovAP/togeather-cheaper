@@ -3,8 +3,6 @@ import serverProxy from "../../proxy/server-proxy";
 import { ProductData } from "../interfaces";
 import { AppDispatch } from "../store";
 
-
-
 export const createProductAsync = (data: ProductData) => async () => {
     const product = await serverProxy.products.create(data);
     return product;
@@ -12,7 +10,6 @@ export const createProductAsync = (data: ProductData) => async () => {
 
 export const getProductsAsync = (userId: number) => async (dispatch: AppDispatch) => {
     const products = await serverProxy.products.get(userId);
-    console.log(products)
     dispatch(setProducts({products}));
     return products;
 }

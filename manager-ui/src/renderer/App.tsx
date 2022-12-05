@@ -6,6 +6,9 @@ import RegisterPage from './register-page/register-page';
 import ProductsPage from './product-pages/products-page';
 import ProfilePage from './profile-page/profile-page';
 import CreateProductPage from './product-pages/create-product-page';
+import ProductPage from './product-pages/product-page';
+import CreateCollectionPage from './product-pages/create-collection-page';
+
 import 'antd/dist/antd.css';
 import './base.sass'
 
@@ -17,12 +20,14 @@ export default function App() {
       <Header/>
       <Content>
         <Routes>
+          <Route path='/products/:productId/create-collection' element={<CreateCollectionPage/>}/>
+          <Route path='/products/:productId' element={<ProductPage/>}/>
           <Route path='/products/create' element={<CreateProductPage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/" element={<ProductsPage/>}/>
-        </Routes>
+        </Routes> 
       </Content>
     </Layout>
   </Router>

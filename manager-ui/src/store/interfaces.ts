@@ -22,6 +22,9 @@ export interface AppState {
     },
     products: {
         current: Product[],
+    },
+    collections: {
+        current: Collection[],
     }
 }
 
@@ -34,4 +37,16 @@ export interface Product {
 export interface ProductData {
     name_product: string;
     price: number;
+}
+
+export interface CollectionData {
+    count_for_buy: number;
+    name_product: string;
+}
+
+export interface Collection {
+    count_for_buy: number;
+    manager: User;
+    product: Product;
+    id: number;
 }
