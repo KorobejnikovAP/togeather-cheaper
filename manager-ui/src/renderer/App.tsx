@@ -3,8 +3,9 @@ import { Layout } from 'antd';
 import Header from "./header/header";
 import LoginPage from './login-page/login-page';
 import RegisterPage from './register-page/register-page';
-import HomePage from './home-page/home-page';
+import ProductsPage from './product-pages/products-page';
 import ProfilePage from './profile-page/profile-page';
+import CreateProductPage from './product-pages/create-product-page';
 import 'antd/dist/antd.css';
 import './base.sass'
 
@@ -16,10 +17,11 @@ export default function App() {
       <Header/>
       <Content>
         <Routes>
+          <Route path='/products/create' element={<CreateProductPage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
-          <Route path="/" element={<HomePage/>}/>
+          <Route path="/" element={<ProductsPage/>}/>
         </Routes>
       </Content>
     </Layout>
