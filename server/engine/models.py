@@ -12,7 +12,8 @@ class User(AbstractUser):
         (MANAGER, 'manager'),
     ]
 
-    user_role = models.CharField(max_length=7, choices=USER_ROLE_CHOICES)  
+    user_role = models.CharField(max_length=7, choices=USER_ROLE_CHOICES)
+    address = models.CharField(max_length=256, default="")  
 
 class Product(models.Model):
     name = models.CharField(max_length=128)
@@ -27,6 +28,7 @@ class Collection(models.Model):
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='manager')
     clients = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='client')
     countForBuy = models.IntegerField()
+    countCurrentBuyers = models.IntegerField(default=0)
 
     ACTIVE = True
     CLOSE = False
