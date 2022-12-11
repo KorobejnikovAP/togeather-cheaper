@@ -160,6 +160,7 @@ class AddUserToCollection(views.APIView):
         else:
             return Response("This user is already participating in the collection!", status=403)
 
+
 class AddAddressToUser(views.APIView):
     permission_classes = [IsAuthenticated]
 
