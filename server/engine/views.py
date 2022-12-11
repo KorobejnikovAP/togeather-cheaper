@@ -150,18 +150,23 @@ class AddUserToCollection(views.APIView):
     permission_classes = [IsClient]
 
     def patch(self, request, pk):
+        user = request.user
         collection = Collection.objects.get(pk=pk)
-        collection.countCurrentBuyers += 1
-        collection.save()
-        return Response(serializers.CollectionSerializer(collection).data)
+        if user not in collection.clients.all():
+            collection.countCurrentBuyers += 1
+            collection.clients.add(user)
+            collection.save()
+            return Response(serializers.CollectionSerializer(collection).data)
+        else:
+            return Response("This user is already participating in the collection!", status=403)
 
 class AddAddressToUser(views.APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request, pk):
+    def patch(self, request):
         serializer = serializers.AddAddressToUserSerializer(data=request.data)
         if serializer.is_valid():
-            user = User.objects.get(pk=pk)
+            user = request.user
             user.address = serializer.validated_data['address']
             user.save()
             return Response(serializers.UserSerializer(user).data)
