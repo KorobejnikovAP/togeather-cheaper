@@ -151,9 +151,12 @@ class AddUserToCollection(views.APIView):
 
     def patch(self, request, pk):
         collection = Collection.objects.get(pk=pk)
-        collection.countCurrentBuyers += 1
-        collection.save()
-        return Response(serializers.CollectionSerializer(collection).data)
+        if collection.countForBuy != collection.countCurrentBuyers:
+            collection.clients.add(request.user)
+            collection.countCurrentBuyers += 1
+            collection.save()
+            return Response(serializers.CollectionSerializer(collection).data)
+        return Response("Collection is full!", status=400)
 
 class AddAddressToUser(views.APIView):
     permission_classes = [IsAuthenticated]
