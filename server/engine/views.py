@@ -151,7 +151,7 @@ class AddUserToCollection(views.APIView):
 
     def patch(self, request, pk):
         collection = Collection.objects.get(pk=pk)
-        collection.countCurrentBuyers += 1
+        collection.clients.add(request.user)
         collection.save()
         return Response(serializers.CollectionSerializer(collection).data)
 
