@@ -15,6 +15,7 @@ export default function Header() {
         <Row justify='space-between'>
           <Col>
             <Link to="/" className="c1">Главная</Link>
+            <Link to="/for-providers" className="c1">Для поставщиков</Link>
           </Col>
           <Col>
             {
