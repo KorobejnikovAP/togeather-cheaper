@@ -20,7 +20,10 @@ export default function Header() {
           <Col>
             {
               user ? (
-                <Link to="/profile">{user.username}</Link>
+                <>
+                  <Link to="/cart">Корзина</Link>
+                  <Link to="/profile">{user.username}</Link>     
+                </>
               ) : (
                 <>
                   <Link to="/login">Вход</Link>

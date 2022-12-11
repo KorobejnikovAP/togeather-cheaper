@@ -11,6 +11,7 @@ import ProfilePage from "./components/profile-page/profile-page";
 import { Layout } from 'antd';
 import Header from "./components/header/header";
 import ProviderPage from "./components/provider-page/provider-page";
+import CartPage from "./components/cart-page/cart-page";
 
 const { Content } = Layout;
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/for-providers" element={<ProviderPage/>}/>
+          <Route path="/cart" element={<CartPage/>}/>
           <Route path="/" element={<CollectionsPage/>}/>
         </Routes>
       </Content>
