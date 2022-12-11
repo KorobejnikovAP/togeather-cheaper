@@ -24,7 +24,7 @@ const button = (
     is_active ? <Button>Вы участвуете в сборе</Button> : <Button onClick={onAdd}>Принять участие в сборе</Button>
 )
 return (  
-    <div className="tc-product-card">
+    <div className={`tc-product-card ${is_active ? 'tc-product-card-active' : ''}`}>
         <Card title={`Сбор #${id} | ${collection.product.name} | Цена: ${collection.product.price}р`} style={{ width: 300 }}>
             <p>Количество товара: {count_for_buy}</p>
             <p>Количество участников: {count_current_buyers}</p>
