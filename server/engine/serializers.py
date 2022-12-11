@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from rest_framework.serializers import Serializer, ModelSerializer, CharField, IntegerField
+from rest_framework.serializers import Serializer, ModelSerializer, CharField, IntegerField, UUIDField
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
@@ -47,7 +47,7 @@ class RegisterSerializer(ModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id','username']
+        fields = ['id','username', 'address']
 
 class ProductSerializer(ModelSerializer):
     class Meta:
@@ -57,14 +57,15 @@ class ProductSerializer(ModelSerializer):
 class CollectionSerializer(ModelSerializer):
     product = ProductSerializer()
     manager = UserSerializer()
-    id = serializers.UUIDField(source='pk')
-    count_for_buy = serializers.IntegerField(source='countForBuy')
+    id = UUIDField(source='pk')
+    count_for_buy = IntegerField(source='countForBuy')
+    count_current_buyers = IntegerField(source='countCurrentBuyers')
     class Meta:
         model = Collection
-        fields = ['id', 'product', 'manager', 'count_for_buy']
+        fields = ['id', 'product', 'manager', 'count_for_buy', 'count_current_buyers']
 
 class ProfileSerializer(ModelSerializer):
-    id = serializers.UUIDField(source='pk')
+    id = UUIDField(source='pk')
     class Meta:
         model = User
         fields = ['id', 'username', 'user_role']
@@ -76,3 +77,6 @@ class CreateProductSerializer(Serializer):
 class CreateCollectionSerializer(Serializer):
     name_product = CharField()
     count_for_buy = IntegerField()
+
+class AddAddressToUserSerializer(Serializer):
+    address = CharField()

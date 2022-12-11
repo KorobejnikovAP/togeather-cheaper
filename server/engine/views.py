@@ -47,8 +47,10 @@ class LoginView(views.APIView):
     def post(self, request: Request):
         serializer = serializers.LoginSerializer(data=request.data)
         if serializer.is_valid():
-            authenticated_user = User.objects.get(**serializer.validated_data)
-            print(authenticated_user)
+            try:
+                authenticated_user = User.objects.get(**serializer.validated_data)
+            except:
+                return Response(serializer.errors, status=400)
             try:
                 token = Token.objects.get(user=authenticated_user)
             except Token.DoesNotExist:
@@ -129,8 +131,12 @@ class CreateCollection(views.APIView):
     def post(self, request):
         serializer = serializers.CreateCollectionSerializer(data=request.data)
         if serializer.is_valid():
+            try:
+                product = Product.objects.get(name=serializer.validated_data['name_product'])
+            except:
+                return Response(serializer.errors, status=400)
             collection = Collection.objects.create(
-                product = Product.objects.get(name=serializer.validated_data['name_product']),
+                product = product,
                 manager = request.user,
                 countForBuy = serializer.validated_data['count_for_buy'],
                 status = True,
@@ -139,3 +145,25 @@ class CreateCollection(views.APIView):
             return Response(status=201)
         else:
             return Response(serializer.errors, status=400)
+
+class AddUserToCollection(views.APIView):
+    permission_classes = [IsClient]
+
+    def patch(self, request, pk):
+        collection = Collection.objects.get(pk=pk)
+        collection.countCurrentBuyers += 1
+        collection.save()
+        return Response(serializers.CollectionSerializer(collection).data)
+
+class AddAddressToUser(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        serializer = serializers.AddAddressToUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.get(pk=pk)
+            user.address = serializer.validated_data['address']
+            user.save()
+            return Response(serializers.UserSerializer(user).data)
+        
+        return Response(serializer.errors, status=400)

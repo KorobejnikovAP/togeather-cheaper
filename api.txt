@@ -16,6 +16,7 @@ api/collections GET
                 "username" : string,
             },
             "count_for_buy" : number,
+            "count_current_buyers" : number,
         },
         {
             ""
@@ -37,6 +38,7 @@ api/collection/<id> GET
         "username" : string,
     },
     "count_for_buy" : number,
+    "count_current_buyers" : number,
 }
 
 # Получить данные пользователя 
@@ -44,6 +46,7 @@ api/user
 {
     "id"       : number,
     "username" : string,
+    "address"  : string,
 }
 
 # Получить данные профиля
@@ -85,6 +88,7 @@ api/profile/<id>/collections GET
                 "username" : string,
             },
             "count_for_buy" : number,
+            "count_current_buyers" : number
         },
         {
             ""
@@ -111,23 +115,69 @@ api/login
 }
 
 # Создать продукт
-api/create_product/
+api/create_product
 {
     "name_product"  : string, 
     "price"         : number
 }
 
 # Создать сбор
-api/create_collection/
+api/create_collection
 {
     "name_product"  : string, 
     "count_for_buy" : number,
 }
 
 
-PUT Запросы ------------------------------------------------------------------------
+PATCH Запросы ------------------------------------------------------------------------
 
 # Добваить клиента в сбор
-api/add_user_to_collection/<id>
+api/add_user_to_collection/<id>  # id коллекции!!!
+request
 {
+}
+response
+{
+    "id" : number,
+    "product" : {
+        "id" : number,
+        "name" : string,
+        "price" : number
+    },
+    "manager" : {
+        "id" : number,
+        "username" : string,
+    },
+    "count_for_buy" : number,
+    "count_current_buyers" : number,
+}
+
+
+#Добваить адресс пользователю
+api/add_address/<id>
+request
+{
+    "address" : string,
+}
+response
+{
+    "id"       : number,
+    "username" : string,
+    "address"  : string,
+}
+
+#Закрыть сбор
+api/close_collection/<id>  # id коллекции!!!
+request
+{
+}
+response
+{
+    [
+        {
+            "id"
+            "username"
+            "address"
+        }
+    ]
 }
