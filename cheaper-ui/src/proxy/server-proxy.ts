@@ -1,4 +1,4 @@
-import { LoginData, RegisterData } from "../store/interfaces";
+import { AdressData, LoginData, RegisterData } from "../store/interfaces";
 
 const backendUrl = 'http://localhost:8000';
 
@@ -9,6 +9,9 @@ interface OptionsType {
 }
 
 let token: string | null = null;
+if (localStorage.getItem('token')) {
+    token = localStorage.getItem('token');
+}
 async function makeRequest(method: string, url: string, data?: any): Promise<any> {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
@@ -50,12 +53,29 @@ async function register(data: RegisterData){
 
 async function getSelf(tokenInternal: string) {
     token = tokenInternal;
+    localStorage.setItem('token', token);
     const response = await makeRequest('GET', '/api/user');
+    return response;
+}
+
+async function setAdress(data: AdressData) {
+    const response = await makeRequest('PATCH', `/api/add_address/${data.user_id}`, { address: data.adress });
     return response;
 }
 
 async function getCollections() {
     const response = await makeRequest('GET', '/api/collections');
+    response.forEach((c: any) => c.is_active = false)
+    return response;
+}
+
+async function joinCollection(collectionId: number) {
+    const response = await makeRequest('PATCH', `/api/add_user_to_collection/${collectionId}`);
+    return response;
+}
+
+async function getActiveCollections(userId: number) {
+    const response = await makeRequest('GET', `/api/profile/${userId}/collections`);
     return response;
 }
 
@@ -64,8 +84,11 @@ export const serverProxy = {
         login,
         register,
         getSelf,
+        setAdress,
     },
     collections: {
         get: getCollections,
+        join: joinCollection,
+        getActive: getActiveCollections,
     }
 }

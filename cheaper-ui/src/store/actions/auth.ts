@@ -1,5 +1,5 @@
 import { serverProxy } from "../../proxy/server-proxy";
-import { AppState, LoginData, RegisterData } from "../interfaces";
+import { AdressData, AppState, LoginData, RegisterData } from "../interfaces";
 import { setToken, setSelf } from "../reducers/auth";
 import { AppDispatch } from "../store";
 
@@ -19,4 +19,9 @@ export const registerAsync = (data: RegisterData) => async (dispatch: AppDispatc
     const responseData = await serverProxy.auth.register(data);
     dispatch(setToken({ token: responseData.key }));
     dispatch(getUserAsync(responseData.key));
+}
+
+export const setAdressAsync = (data: AdressData) => async (dispatch: AppDispatch) => {
+    const user = await serverProxy.auth.setAdress(data);
+    dispatch(setSelf({ user }));
 }
