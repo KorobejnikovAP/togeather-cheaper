@@ -59,7 +59,7 @@ async function getSelf(tokenInternal: string) {
 }
 
 async function setAdress(data: AdressData) {
-    const response = await makeRequest('PATCH', `/api/add_address/${data.user_id}`, { address: data.adress });
+    const response = await makeRequest('PATCH', `/api/add_address/${data.user_id}`, data);
     return response;
 }
 

@@ -16,6 +16,7 @@ export interface AdressData {
 }
 
 export interface User {
+    address: string;
     username: string;
     id: number;
 }

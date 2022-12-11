@@ -62,10 +62,11 @@ export default function ProfilePage() {
                         <Row>
                             <Col>
                                 <Form.Item
-                                    name="adress"
+                                    name="address"
                                     rules={[{ required: true, message: 'Please input your adress!' }]}
                                     >
                                     <Input 
+                                        defaultValue={user?.address}
                                         placeholder='Адрес доставки'
                                     />
                                 </Form.Item>
