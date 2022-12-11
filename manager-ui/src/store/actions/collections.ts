@@ -13,3 +13,8 @@ export const getCollectionsAsync = () => async (dispatch: AppDispatch) => {
     dispatch(setCollections({collections}));
     return collections;
 }
+
+export const closeCollecitonAsync = (collectionId: number) => async (dispatch: AppDispatch) => {
+    const users = await serverProxy.collections.close(collectionId);
+    return users;
+}

@@ -74,6 +74,16 @@ async function getCollections() {
     return response;
 }
 
+async function closeCollection(collectionId: number) {
+    return [
+        {
+            id: 1,
+            username: 'test',
+            address: 'adress',
+        }
+    ]
+}
+
 const serverProxy = {
     auth: {
         login,
@@ -87,6 +97,7 @@ const serverProxy = {
     collections: {
         create: createCollection,
         get: getCollections,
+        close: closeCollection,
     }
 }
 
