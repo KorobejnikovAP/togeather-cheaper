@@ -24,7 +24,7 @@ urlpatterns = [
     path('api/create_collection', views.CreateCollection.as_view()),
     path('api/add_user_to_collection/<int:pk>', views.AddUserToCollection.as_view()),
     path('api/add_address/<int:pk>', views.AddAddressToUser.as_view()),
-    #path('api/close_collection/<int:pk>'),
+    path('api/close_collection/<int:pk>', views.CloseCollectionView.as_view()),
 ]
 
 print(urlpatterns)
