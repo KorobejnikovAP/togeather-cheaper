@@ -13,7 +13,8 @@ interface Props {
 
 export default function CollectionCard (props: Props) {
 const { collection } = props;
-const { id, count_for_buy, is_active, count_current_buyers } = collection;
+const { id, count_for_buy, is_active, count_current_buyers, status: not_closed } = collection;
+const closed = !not_closed;
 const navigate = useNavigate();
 const dispatch: AppDispatch = useDispatch();
 const user = useSelector((state: AppState) => state.auth.user);
@@ -23,12 +24,26 @@ const onAdd = () => {
 const button = (
     is_active ? <Button>Вы участвуете в сборе</Button> : <Button onClick={onAdd}>Принять участие в сборе</Button>
 )
+
+if (closed) {
+    return (
+        <div className={`tc-product-card ${is_active ? 'tc-product-card-active' : ''}`}>
+            <Card title={`Сбор #${id} | ${collection.product.name} | Цена: ${collection.product.price}р`} style={{ width: 300, height: 210 }}>
+                <p>Количество товара: {count_for_buy}</p>
+                <p>Количество участников: {count_current_buyers}</p>
+                <Button>{is_active ? 'Сбор закрыт/Вы участвуете' : 'Cбор закрыт'}</Button> 
+            </Card>
+        </div>
+    )
+}
+
+
 return (  
     <div className={`tc-product-card ${is_active ? 'tc-product-card-active' : ''}`}>
-        <Card title={`Сбор #${id} | ${collection.product.name} | Цена: ${collection.product.price}р`} style={{ width: 300 }}>
+        <Card title={`Сбор #${id} | ${collection.product.name} | Цена: ${collection.product.price}р`} style={{ width: 300, height: 210 }}>
             <p>Количество товара: {count_for_buy}</p>
             <p>Количество участников: {count_current_buyers}</p>
-            {user && (count_for_buy > count_current_buyers ? button : null)} 
+            {user && (count_for_buy > count_current_buyers ? button : <Button>{is_active ? 'Сбор заполнен/Вы участвуете' : 'Cбор заполнен'}</Button>)} 
         </Card>
     </div>
   )

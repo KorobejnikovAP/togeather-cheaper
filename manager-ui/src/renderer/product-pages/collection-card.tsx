@@ -13,13 +13,14 @@ interface Props {
 
 export default function CollectionCard (props: Props) {
 const { collection } = props;
-const { id, count_for_buy, count_current_buyers } = collection;
+const { id, count_for_buy, count_current_buyers, status: not_closed } = collection;
+const closed = !not_closed;
 const navigate = useNavigate();
 const dispatch: AppDispatch = useDispatch();
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [usersList, setUsersList] = useState<User[]>([]);
-const [disabled, setDisabled] = useState(false);
-const [canceled, setCanceled] = useState(false);
+const [disabled, setDisabled] = useState(closed);
+const [canceled, setCanceled] = useState(closed);
 
 const showModal = () => {
   setIsModalOpen(true);
@@ -34,8 +35,11 @@ const onClose = () => {
      }).catch(()=>{});   
 }
 const onCancel = () => {
-    setCanceled(true);
-    setDisabled(true);
+    dispatch(closeCollecitonAsync(id)).then(() => {
+        setCanceled(true);
+        setDisabled(true);
+        return null;
+     }).catch(()=>{});   
 }
 
 return (  
@@ -47,8 +51,8 @@ return (
             <Button onClick={onClose} disabled={disabled}>Закрыть сбор</Button>
             <Button onClick={onCancel} disabled={disabled}>Отменить сбор</Button>
             <Modal title="Список пользователей" open={isModalOpen} onOk={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)}>
-                {usersList.map((user: User) => (
-                    <p>{user.username} | {user.address}</p>
+                {usersList?.map((user: User) => (
+                    <p key={user.id}>{user.username} | {user.address}</p>
                 ))}
             </Modal>
         </Card>

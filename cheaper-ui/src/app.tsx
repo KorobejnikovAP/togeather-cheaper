@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,10 +12,17 @@ import { Layout } from 'antd';
 import Header from "./components/header/header";
 import ProviderPage from "./components/provider-page/provider-page";
 import CartPage from "./components/cart-page/cart-page";
+import { AppDispatch } from "./store/store";
+import { useDispatch } from "react-redux";
+import { getUserAsync } from "./store/actions/auth";
 
 const { Content } = Layout;
 
 function App() {
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserAsync());
+  })
   return (
     <Router>
     <Layout className='tc-main'>

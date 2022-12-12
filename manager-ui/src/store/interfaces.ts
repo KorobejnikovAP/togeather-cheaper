@@ -51,4 +51,5 @@ export interface Collection {
     manager: User;
     product: Product;
     id: number;
+    status: boolean;
 }

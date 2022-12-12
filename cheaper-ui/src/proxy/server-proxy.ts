@@ -12,6 +12,7 @@ let token: string | null = null;
 if (localStorage.getItem('token')) {
     token = localStorage.getItem('token');
 }
+
 async function makeRequest(method: string, url: string, data?: any): Promise<any> {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
@@ -51,9 +52,11 @@ async function register(data: RegisterData){
     return await makeRequest('POST', '/api/register', { ...data, user_role: 'client'});
 }
 
-async function getSelf(tokenInternal: string) {
-    token = tokenInternal;
-    localStorage.setItem('token', token);
+async function getSelf(tokenInternal?: string) {
+    if (tokenInternal) {
+        token = tokenInternal;
+        localStorage.setItem('token', token);
+    }
     const response = await makeRequest('GET', '/api/user');
     return response;
 }

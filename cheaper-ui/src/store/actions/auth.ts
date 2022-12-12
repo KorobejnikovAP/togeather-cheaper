@@ -9,10 +9,13 @@ export const loginAsync = (data: LoginData) => async (dispatch: AppDispatch) => 
     dispatch(getUserAsync(responseData.key));
 }
 
-export const getUserAsync = (token: string) => async (dispatch: AppDispatch) => {
-    let user = null;
-    if (token) user = await serverProxy.auth.getSelf(token);
-    dispatch(setSelf({ user }));
+export const getUserAsync = (token?: string) => async (dispatch: AppDispatch) => {
+    try {
+        let user = null;
+        user = await serverProxy.auth.getSelf(token);
+        if (user.id) dispatch(setSelf({ user }));
+    // eslint-disable-next-line no-empty
+    } catch (e) {}
 }
 
 export const registerAsync = (data: RegisterData) => async (dispatch: AppDispatch) => {

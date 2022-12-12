@@ -3,11 +3,13 @@ import { AppState, LoginData, RegisterData } from "../interfaces";
 import { setToken, setSelf } from "../reducers/auth";
 import { AppDispatch } from "../store";
 
-export const getUserAsync = (token: string) => async (dispatch: AppDispatch) => {
-    let user = null;
-    if (token) user = await serverProxy.auth.getSelf(token);
-    dispatch(setSelf({ user }));
-    dispatch(setToken({ token }));
+export const getUserAsync = (token?: string) => async (dispatch: AppDispatch) => {
+    try {
+        let user = null;
+        user = await serverProxy.auth.getSelf(token);
+        if (user.id) dispatch(setSelf({ user }));
+    // eslint-disable-next-line no-empty
+    } catch (e) {}
 }
 
 export const loginAsync = (data: LoginData) => async (dispatch: AppDispatch) => {

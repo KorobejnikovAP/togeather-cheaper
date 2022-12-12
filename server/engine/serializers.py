@@ -62,7 +62,7 @@ class CollectionSerializer(ModelSerializer):
     count_current_buyers = IntegerField(source='countCurrentBuyers')
     class Meta:
         model = Collection
-        fields = ['id', 'product', 'manager', 'count_for_buy', 'count_current_buyers']
+        fields = ['id', 'product', 'manager', 'count_for_buy', 'count_current_buyers', 'status']
 
 class ProfileSerializer(ModelSerializer):
     id = UUIDField(source='pk')

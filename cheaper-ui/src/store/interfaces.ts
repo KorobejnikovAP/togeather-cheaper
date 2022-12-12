@@ -39,6 +39,7 @@ export interface Collection {
     product: Product;
     id: number;
     is_active: boolean;
+    status: boolean;
 }
 
 export interface Product {
