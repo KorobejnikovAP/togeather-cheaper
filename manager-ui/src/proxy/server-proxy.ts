@@ -9,6 +9,10 @@ interface OptionsType {
 }
 
 let token: string | null = null;
+if (localStorage.getItem('token')) {
+    token = localStorage.getItem('token');
+}
+
 async function makeRequest(method: string, url: string, data?: any): Promise<any> {
     const headers: Record<string, string> = {
         'Accept': 'application/json',
@@ -48,12 +52,14 @@ async function register(data: RegisterData){
     return makeRequest('POST', '/api/register', { ...data, user_role: 'manager'});
 }
 
-async function getSelf(tokenInternal: string) {
-    token = tokenInternal;
+async function getSelf(tokenInternal?: string) {
+    if (tokenInternal) {
+        token = tokenInternal;
+        localStorage.setItem('token', token);
+    }
     const response = await makeRequest('GET', '/api/user');
     return response;
 }
-
 async function createProduct(data: ProductData) {
     const response = await makeRequest('POST', '/api/create_product', data);
     return response;
@@ -74,6 +80,11 @@ async function getCollections() {
     return response;
 }
 
+async function closeCollection(collectionId: number) {
+    const response = await makeRequest('POST', `/api/close_collection/${collectionId}`);
+    return response;
+}
+
 const serverProxy = {
     auth: {
         login,
@@ -87,6 +98,7 @@ const serverProxy = {
     collections: {
         create: createCollection,
         get: getCollections,
+        close: closeCollection,
     }
 }
 

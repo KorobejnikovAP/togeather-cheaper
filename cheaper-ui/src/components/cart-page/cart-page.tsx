@@ -1,4 +1,3 @@
-
 import { Row, Col } from 'antd';
 import Search from 'antd/lib/input/Search';
 import React, { useCallback, useEffect } from 'react';
@@ -7,10 +6,10 @@ import { getCollectionsAsync, getActiveCollectionsAsync } from '../../store/acti
 import { AppState, Collection } from '../../store/interfaces';
 import { searchCollections } from '../../store/reducers/collections';
 import { AppDispatch } from '../../store/store';
-import CollectionCard from './collection-card';
+import CollectionCard from '../collections-page/collection-card';
 import './styles.sass'
 
-export default function CollectionsPage() {
+export default function CartPage() {
     const dispatch: AppDispatch = useDispatch();
     const user = useSelector((state: AppState) => state.auth.user);
     
@@ -24,6 +23,7 @@ export default function CollectionsPage() {
     }, []);
 
     const collections = useSelector((state: AppState) => state.collections.current);
+    const activeCollections = collections.filter((collection) => collection.is_active);
     return (
         <div className='tc-page tc-collections-page'>
             <Row justify='center' style={{ marginBottom: '16px'}}>
@@ -34,7 +34,7 @@ export default function CollectionsPage() {
             <Row justify='center'>
                 <Col span={22}>
                     {
-                        collections?.map((collection: Collection) => {
+                        activeCollections?.map((collection: Collection) => {
                             return <CollectionCard collection={collection} key={collection.id}/>
                         })
                     }

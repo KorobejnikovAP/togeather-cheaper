@@ -13,6 +13,7 @@ export interface RegisterData {
 export interface User {
     id: number;
     username: string;
+    address: string;
 }
 
 export interface AppState {
@@ -46,7 +47,9 @@ export interface CollectionData {
 
 export interface Collection {
     count_for_buy: number;
+    count_current_buyers: number;
     manager: User;
     product: Product;
     id: number;
+    status: boolean;
 }

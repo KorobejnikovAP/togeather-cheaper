@@ -10,8 +10,15 @@ export interface RegisterData {
     email: string;
 }
 
+export interface AdressData {
+    user_id: number;
+    adress: string;
+}
+
 export interface User {
+    address: string;
     username: string;
+    id: number;
 }
 
 export interface AppState {
@@ -20,15 +27,19 @@ export interface AppState {
         user: User | null;
     }
     collections: {
+        collections: Collection[],
         current: Collection[],
     }
 }
 
 export interface Collection {
     count_for_buy: number;
+    count_current_buyers: number;
     manager: User;
     product: Product;
     id: number;
+    is_active: boolean;
+    status: boolean;
 }
 
 export interface Product {
