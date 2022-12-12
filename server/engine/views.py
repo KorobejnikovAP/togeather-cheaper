@@ -174,3 +174,16 @@ class AddAddressToUser(views.APIView):
             return Response(serializers.UserSerializer(user).data)
         
         return Response(serializer.errors, status=400)
+
+class CloseCollectionView(views.APIView):
+    permission_classes = [IsManager]
+
+    def post(self, request, pk):
+        collection = Collection.objects.get(pk=pk)
+        if collection.manager == request.user:
+            response = Response(serializers.UserSerializer(collection.clients.all(), many=True).data)
+            collection.status = False
+            collection.save()
+            return response
+        else:
+            Response("Attempt to delete a collection other than your own!", status=400)
