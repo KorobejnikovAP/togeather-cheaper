@@ -182,7 +182,8 @@ class CloseCollectionView(views.APIView):
         collection = Collection.objects.get(pk=pk)
         if collection.manager == request.user:
             response = Response(serializers.UserSerializer(collection.clients.all(), many=True).data)
-            collection.delete()
+            collection.status = False
+            collection.save()
             return response
         else:
             Response("Attempt to delete a collection other than your own!", status=400)
